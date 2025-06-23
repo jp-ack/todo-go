@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,19 +18,16 @@ var todos = []todo{
 	{ID: "3", Name: "Record Video", Completed: false},
 }
 
-// var welcomeMessage = "Welcome"
 // IndentedJSON will accept the code , and a string , num , slice , struct , or map
 func getTodos(context *gin.Context) {
-	log.Println("\033[33m getTodos function called\033[33m")
 	context.IndentedJSON(http.StatusOK, todos)
 }
 
 func addTodo(context *gin.Context) {
-	log.Println("Add Todo Clicked ")
 	var newTodo todo
-
+	// Try to bind the incoming JSON to newTodo
 	if err := context.BindJSON(&newTodo); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
@@ -39,10 +35,17 @@ func addTodo(context *gin.Context) {
 	context.IndentedJSON(http.StatusAccepted, newTodo)
 }
 
+func delTodo(context *gin.Context) {
+
+}
+
 func main() {
-	log.Println("Starting Program")
+
 	router := gin.Default()
-	router.GET("/todos", getTodos) //get request to /todos will run getTodos
-	router.POST("/todos", addTodo)
 	router.Run("localhost:9090") //router will be listening on 127.0.0.1 on port 9090 for http requests
+
+	router.GET("/todos", getTodos) //get request to /todos will run getTodos, passing in the incomming http request as gin.Context
+	router.POST("/todos", addTodo)
+	router.DELETE("/todos", delTodo)
+
 }
