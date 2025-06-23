@@ -1,8 +1,8 @@
 ##Interacting with the REST API using Curl
 
 # Assumptions
-    Takes in JSON binding
-    Localhost:9090 is enabled OR 127.0.0.1 (loopback)
+Takes in JSON binding
+Localhost:9090 is enabled OR 127.0.0.1 (loopback)
 
 
 # POST
