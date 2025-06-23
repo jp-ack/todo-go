@@ -30,15 +30,13 @@ func addTodo(context *gin.Context) {
 	log.Println("Add Todo Clicked ")
 	var newTodo todo
 
-	if err := context.BindJSON(&newTodo); // bind the JSON , if there is an error , it wont be nil
-	err != nil {                          // if it is not nil , we will return
-		return //hence we return
+	if err := context.BindJSON(&newTodo); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	todos = append(todos, newTodo)
-
 	context.IndentedJSON(http.StatusAccepted, newTodo)
-
 }
 
 func main() {
